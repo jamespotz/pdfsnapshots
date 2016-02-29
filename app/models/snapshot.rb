@@ -1,3 +1,4 @@
+require 'tempfile'
 class Snapshot < ActiveRecord::Base
 	validates_presence_of :url
 	def is_valid_uri?
@@ -10,9 +11,12 @@ class Snapshot < ActiveRecord::Base
 
 	def generate_pdf
 		pdf = WickedPdf.new.pdf_from_url(self.url)
-		pdf_dir = Rails.root.join('tmp/pdfs',"#{self.url}.pdf")
-		File.open(pdf_dir, 'wb') do |file|
-			file.write pdf
-		end
+		host_name = URI.parse(self.url)
+		host_name = host_name.host.gsub('.','')
+		temp_pdf_file = Tempfile.new(["#{host_name}", ".pdf"],Rails.root.join('tmp/pdfs'))
+		temp_pdf_file.binmode
+		temp_pdf_file.write pdf
+		temp_pdf_file.close
+		self.snapshot_link = temp_pdf_file.path
 	end
 end
