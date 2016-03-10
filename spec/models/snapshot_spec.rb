@@ -9,7 +9,10 @@ RSpec.describe Snapshot, type: :model do
   end
 
   it "should generate a pdf file from the url" do
-  	snap.generate_pdf
-  	File.exist?(snap.snapshot_link).should be_truthy
+  	snap.to_pdf
+  	expect(snap.pdf_file_name.present?).to be_truthy
+  end
+
+  it "should save the pdf to dropbox" do
   end
 end

@@ -1,22 +1,25 @@
 require 'tempfile'
 class Snapshot < ActiveRecord::Base
 	validates_presence_of :url
+
+	has_attached_file :pdf
+	validates_attachment :pdf, :content_type => { :content_type => "application/pdf"}
+
 	def is_valid_uri?
-		url = URI.parse(self.url)
-		request = Net::HTTP.new(url.host, url.port)
-		request.use_ssl = (url.scheme == 'https')
-		response = request.request_head(url)
-		true if response.code != '404'
+		request               = Net::HTTP.new(parsed_url.host, parsed_url.port)
+		request.use_ssl       = (parsed_url.scheme == 'https')
+		response              = request.request_head(parsed_url)
+		return true if response.code != '404'
+	end	
+
+	def to_pdf
+		self.pdf = PdfGenerator.new(self.url).create
+		self.pdf_file_name = "#{ parsed_url.host.gsub('.','') }.pdf"
 	end
 
-	def generate_pdf
-		pdf = WickedPdf.new.pdf_from_url(self.url)
-		host_name = URI.parse(self.url)
-		host_name = host_name.host.gsub('.','')
-		temp_pdf_file = Tempfile.new(["#{host_name}", ".pdf"],Rails.root.join('tmp/pdfs'))
-		temp_pdf_file.binmode
-		temp_pdf_file.write pdf
-		temp_pdf_file.close
-		self.snapshot_link = temp_pdf_file.path
-	end
+	private
+
+		def parsed_url
+			URI.parse(self.url)
+		end
 end
