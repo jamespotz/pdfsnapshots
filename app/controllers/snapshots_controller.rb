@@ -28,8 +28,9 @@ class SnapshotsController < ApplicationController
 
     respond_to do |format|
       if @snapshot.save
+        @snapshot.send_pdf
         format.html { redirect_to @snapshot, notice: 'Snapshot was successfully created.' }
-        format.json { render :show, status: :created, location: @snapshot }
+        format.json { render :new, status: :created, location: @snapshot }
       else
         format.html { render :new }
         format.json { render json: @snapshot.errors, status: :unprocessable_entity }
@@ -69,6 +70,6 @@ class SnapshotsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def snapshot_params
-      params.require(:snapshot).permit(:url, :snapshot_link)
+      params.require(:snapshot).permit(:url, :email)
     end
 end

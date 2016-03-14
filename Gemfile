@@ -54,8 +54,11 @@ group :development do
   gem 'spring'
 end
 
+group :production do
+  gem 'delayed_job_active_record'
+  gem 'aws-sdk', '~> 2.2', '>= 2.2.25'
+end
 
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary-edge', '~> 0.12.3.0'
-gem 'aws-sdk', '~> 2.2', '>= 2.2.25'
 gem 'paperclip', '~> 4.3', '>= 4.3.5'

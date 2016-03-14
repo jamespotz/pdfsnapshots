@@ -1,7 +1,7 @@
 require 'tempfile'
 class Snapshot < ActiveRecord::Base
 	validates_presence_of :url
-
+	validates_presence_of :email
 	has_attached_file :pdf
 	validates_attachment :pdf, :content_type => { :content_type => "application/pdf"}
 
@@ -15,6 +15,10 @@ class Snapshot < ActiveRecord::Base
 	def to_pdf
 		self.pdf = PdfGenerator.new(self.url).create
 		self.pdf_file_name = "#{ parsed_url.host.gsub('.','') }.pdf"
+	end
+
+	def send_pdf
+		PdfMailer.delay.send_pdf(self)
 	end
 
 	private
