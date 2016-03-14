@@ -62,3 +62,4 @@ end
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary-edge', '~> 0.12.3.0'
 gem 'paperclip', '~> 4.3', '>= 4.3.5'
+gem 'fog'

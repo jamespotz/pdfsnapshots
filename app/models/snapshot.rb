@@ -2,7 +2,13 @@ require 'tempfile'
 class Snapshot < ActiveRecord::Base
 	validates_presence_of :url
 	validates_presence_of :email
-	has_attached_file :pdf
+	has_attached_file :pdf,
+						storage: :fog,
+						fog_credentials: {
+							aws_access_key_id: ENV["GOOGLE_KEY_ID"],
+							aws_secret_access_key: ENV["GOOGLE_SECRET_KEY"],
+							provider: 'Google'},
+						fog_directory: "pdf_snapshots"
 	validates_attachment :pdf, :content_type => { :content_type => "application/pdf"}
 
 	def is_valid_uri?
