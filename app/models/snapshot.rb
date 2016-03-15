@@ -1,5 +1,7 @@
 require 'tempfile'
+require 'uri'
 class Snapshot < ActiveRecord::Base
+	before_validation :auto_fix_url
 	validates_presence_of :url
 	validates_presence_of :email
 	has_attached_file :pdf,
@@ -31,5 +33,11 @@ class Snapshot < ActiveRecord::Base
 
 		def parsed_url
 			URI.parse(self.url)
+		end
+
+		def auto_fix_url
+			unless self.url[/\Ahttps:\/\//] || self.url[/\Ahtpp:\/\//]
+				self.url = "http://#{ self.url }"
+			end
 		end
 end

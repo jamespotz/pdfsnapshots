@@ -1,4 +1,7 @@
-<%= form_for(@snapshot) do |f| %>
+<%= form_for @snapshot do |f| %>
+  <% if params[:notice] %>
+    <p id="notice" style="background: <%= params[:notice].include?('Error') ? "rgb(203, 11, 11)": "rgb(5, 198, 184)" %>; color: #fff; padding: 15px; font-size: 16px;"><%= params[:notice] %></p>
+  <% end %>
   <% if @snapshot.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(@snapshot.errors.count, "error") %> prohibited this snapshot from being saved:</h2>
@@ -12,9 +15,9 @@
   <% end %>
 
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-    <%= f.text_field :url, :class => "default-font mdl-textfield__input" %>
-    <label class="mdl-textfield__label mdl-color-text--white" for="snapshot_email">Url</label>
-    <span class="mdl-textfield__error">URL is Invalid</span>
+    <%= f.text_field :url, :class => "default-font mdl-textfield__input", :pattern => "^(http[s]?:\\/\\/(www\\.)?|ftp:\\/\\/(www\\.)?|www\\.){1}([0-9A-Za-z-\\.@:%_\+~#=]+)+((\\.[a-zA-Z]{2,3})+)(/(.)*)?(\\?(.)*)?" %>
+    <label class="mdl-textfield__label mdl-color-text--white" for="snapshot_url">Url</label>
+    <span class="mdl-textfield__error">URL is Invalid. Url should contain http:// or https://</span>
   </div><br>
   <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
     <%= f.text_field :email, :class => "default-font mdl-textfield__input", :pattern => "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$" %>

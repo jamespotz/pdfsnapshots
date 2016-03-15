@@ -27,13 +27,11 @@ class SnapshotsController < ApplicationController
     @snapshot = Snapshot.new(snapshot_params)
 
     respond_to do |format|
-      if @snapshot.save
+      if @snapshot.save && @snapshot.is_valid_uri?
         @snapshot.send_pdf
-        format.html { redirect_to @snapshot, notice: 'Snapshot was successfully created.' }
-        format.json { render :new, status: :created, location: @snapshot }
+        format.html { redirect_to action: :new, notice: 'Snapshot was successfully created.' }
       else
-        format.html { render :new }
-        format.json { render json: @snapshot.errors, status: :unprocessable_entity }
+        format.html { redirect_to action: :new, notice: 'Error: Email and URL are required.'}
       end
     end
   end

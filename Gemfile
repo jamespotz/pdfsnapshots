@@ -59,7 +59,7 @@ group :production do
   gem 'aws-sdk', '~> 2.2', '>= 2.2.25'
   gem 'pg'
 end
-
+gem 'puma'
 gem 'wicked_pdf'
 gem 'wkhtmltopdf-binary-edge', '~> 0.12.3.0'
 gem 'paperclip', '~> 4.3', '>= 4.3.5'
