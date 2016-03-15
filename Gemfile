@@ -61,6 +61,6 @@ group :production do
 end
 gem 'puma'
 gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary-edge', '~> 0.12.3.0'
+gem 'wkhtmltopdf-heroku'
 gem 'paperclip', '~> 4.3', '>= 4.3.5'
 gem 'fog'
