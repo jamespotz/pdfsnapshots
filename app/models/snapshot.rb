@@ -25,7 +25,7 @@ class Snapshot < ActiveRecord::Base
 	end
 
 	def send_pdf
-		PdfMailer.delay.send_pdf(self)
+		PdfMailer.send_pdf(self).deliver
 	end
 
 	private

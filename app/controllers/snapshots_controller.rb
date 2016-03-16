@@ -25,7 +25,6 @@ class SnapshotsController < ApplicationController
   # POST /snapshots.json
   def create
     @snapshot = Snapshot.new(snapshot_params)
-    @snapshot.pdf = @snapshot.to_pdf
     respond_to do |format|
       if @snapshot.save && @snapshot.is_valid_uri?
         @snapshot.send_pdf

@@ -1,7 +1,8 @@
 class PdfMailer < ApplicationMailer
 	def send_pdf(snapshot)
 		@snapshot = snapshot
-		@pdf = @snapshot.to_pdf
+		@snapshot.pdf = @snapshot.to_pdf
+		@snapshot.save
 		@snapshot.reload
 		attachments["PDFSnapshot#{ Date.today.iso8601 }.pdf"] = {
 			mime_type: 'application/pdf',
