@@ -21,8 +21,7 @@ class Snapshot < ActiveRecord::Base
 	end	
 
 	def to_pdf
-		self.pdf = PdfGenerator.new(self.url).create
-		self.pdf_file_name = "file_#{ SecureRandom.urlsafe_base64(4) }.pdf"
+		PdfGenerator.new(self.url).create
 	end
 
 	def send_pdf
