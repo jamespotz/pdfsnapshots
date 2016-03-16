@@ -10,7 +10,7 @@ class Snapshot < ActiveRecord::Base
 							google_storage_access_key_id: ENV["GOOGLE_KEY_ID"],
 							google_storage_secret_access_key: ENV["GOOGLE_SECRET_KEY"],
 							provider: 'Google'},
-						fog_directory: "pdf_snapshots"
+						fog_directory: "pdfsnapshots"
 	validates_attachment :pdf, :content_type => { :content_type => "application/pdf"}
 
 	def is_valid_uri?
