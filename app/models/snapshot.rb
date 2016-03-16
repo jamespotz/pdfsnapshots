@@ -7,8 +7,8 @@ class Snapshot < ActiveRecord::Base
 	has_attached_file :pdf,
 						storage: :fog,
 						fog_credentials: {
-							aws_access_key_id: ENV["GOOGLE_KEY_ID"],
-							aws_secret_access_key: ENV["GOOGLE_SECRET_KEY"],
+							google_storage_access_key_id: ENV["GOOGLE_KEY_ID"],
+							google_storage_secret_access_key: ENV["GOOGLE_SECRET_KEY"],
 							provider: 'Google'},
 						fog_directory: "pdf_snapshots"
 	validates_attachment :pdf, :content_type => { :content_type => "application/pdf"}
